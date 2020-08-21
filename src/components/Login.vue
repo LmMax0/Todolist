@@ -21,19 +21,8 @@
       }
     },
     methods: {
-      login () {
-        this.$axios
-            .post('/login', {
-              username: this.loginForm.username,
-              password: this.loginForm.password
-            })
-            .then(successResponse => {
-              if (successResponse.data.code === 200) {
-                this.$router.replace({path: '/index'})
-              }
-            })
-            .catch(failResponse => {
-            })
+      login:function () {
+        this.$router.replace({path: '/todolist'})
       }
     }
   }
