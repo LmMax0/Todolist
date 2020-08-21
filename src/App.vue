@@ -14,7 +14,7 @@
 import HelloWorld from './components/HelloWorld.vue'
 import ToDoList from "./components/ToDoList.vue";
 export default {
-  name:'app',
+  name: 'app',
   components: {
     ToDoList
   }
