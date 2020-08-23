@@ -1,11 +1,15 @@
 <template>
+  <el-card class="box-card out-mcard">
   <div>
-    用户名:<input type="text" v-model="loginForm.username" placeholder="请输入用户名"/>
+    用户名:
+    <el-input type="text" v-model="loginForm.username" placeholder="请输入用户名"></el-input>
     <br><br>
-    密码： <input type="password" v-model="loginForm.password" placeholder="请输入密码"/>
+    密码:
+    <el-input type="password" v-model="loginForm.password" placeholder="请输入用户名"></el-input>
     <br><br>
-    <button v-on:click="login">登录</button>
+    <el-button type="primary" v-on:click="login" round>登录</el-button>
   </div>
+  </el-card>
 </template>
 
 <script>
@@ -16,18 +20,38 @@
         loginForm: {
           username: '',
           password: ''
-        },
-        responseResult: []
+        }
       }
     },
     methods: {
       login:function () {
-        this.$router.replace({path: '/todolist'})
+        let _this=this;
+        this.$axios
+            .post('/api/login', {
+              username: this.loginForm.username,
+              password: this.loginForm.password
+            })
+            .then(function (response) {
+              let response_data =  response.data;
+              // console.log(response_data[0].id);
+              if(response_data[1].code ===400)
+                alert("密码或账号错误，请重新输入")
+              else{
+                _this.$store.state.userid = response_data[0].id;
+                _this.$router.replace({path:'/todolist'})
+              }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
       }
     }
   }
 </script>
 
 <style scoped>
-
+  .out-mcard{
+    margin: 100px auto;
+    width: 400px;
+  }
 </style>

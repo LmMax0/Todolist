@@ -57,14 +57,21 @@
     },
     methods:{
       add(){//增加
+        var _this = this;
         if(this.newtodo.content){
           let posnewtodo = {
             content:this.newtodo.content,
             done:false,
+            u_id:_this.$store.state.userid
           }
           //将添加事项导入数据库 save
-          axios.post("http://localhost:8181/todolist/save",posnewtodo
-          ).catch(error=>{
+          axios.post("http://localhost:8181/todolist/save",posnewtodo)
+          .then(function (resp) {
+            console.log(resp.data)
+            for(let item in resp.data){
+              posnewtodo[item] = resp.data[item];
+            }
+          }).catch(error=>{
             console.log('接口或处理逻辑出错');
           })
 
@@ -84,7 +91,11 @@
       update(item){//更新数据
        // console.log("原数据：")
        // console.log(item);
-        axios.put("http://localhost:8181/todolist/update",item).catch(error=>{
+        axios.put("http://localhost:8181/todolist/update",item)
+            .then(
+
+            )
+            .catch(error=>{
           console.log('接口或处理逻辑出错')
         })
       }
@@ -100,7 +111,7 @@
     mounted:function () {
       //从数据库导入待办事项,查询 findAll
       var _this=this;
-      axios.get("http://localhost:8181/todolist/findAll").then(
+      axios.get("http://localhost:8181/todolist/find/"+_this.$store.state.userid).then(
           function (resp) {
            // console.log(resp.data)
             _this.todolist = resp.data
