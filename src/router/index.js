@@ -28,6 +28,11 @@ Vue.use(VueRouter)
       path: "/todolist",
       name: 'ToDoList',
       component: ()=>import('../components/ToDoList.vue')
+    },
+    {
+      path:"/note",
+      name: "note",
+      component: ()=>import('../components/Note.vue')
     }
 ]
 
